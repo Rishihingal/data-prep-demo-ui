@@ -6,7 +6,7 @@ export default function Features() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4">volunteers suitability score Workflow</h2>
+            <h2 className="h2 mb-4">Volunteers Suitability Score Workflow</h2>
             <p className="text-xl text-gray-400">The detailed volunteers suitability score workflow as discussed</p>
           </div>
 

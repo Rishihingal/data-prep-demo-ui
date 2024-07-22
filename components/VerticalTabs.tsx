@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import { Input } from '@mui/material';
 import Upload from './Upload';
 import Eda from './Eda';
+import ModelSelection from './ModelSelection';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -73,7 +74,7 @@ export default function VerticalTabs() {
           <Eda />
         </TabPanel>
         <TabPanel value={value} index={2}>
-        Model Selection and Training
+          <ModelSelection />
         </TabPanel>
         <TabPanel value={value} index={3}>
         Prediction 

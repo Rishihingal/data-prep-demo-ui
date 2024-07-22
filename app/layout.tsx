@@ -41,7 +41,6 @@ export default function RootLayout({
               {children}
         </ThemeProvider>
        </AppRouterCacheProvider>
-          <Banner />
         </div>
       </body>
     </html>
