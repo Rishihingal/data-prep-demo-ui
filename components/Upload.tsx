@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash, FaUpload } from 'react-icons/fa';
 import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import { Box } from '@mui/material';
 
 const Upload: React.FC = () => {
   var [file, setFile] = useState<File | null>(null);
@@ -80,8 +81,9 @@ const handleCloseSnackbar = () => {
 setOpenSnackbar(false);
 };
 
+
   return (
-    <>
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
       <div className="relative flex flex-col items-center bg-gray-900 p-6 rounded-lg shadow-lg">
         <div
           className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
@@ -135,7 +137,7 @@ setOpenSnackbar(false);
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-    </>
+    </Box>
     
   );
 };

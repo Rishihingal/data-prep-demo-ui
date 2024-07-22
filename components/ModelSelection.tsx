@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, Box, Typography, Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Box, Typography, Tab, Tabs } from '@mui/material';
 import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const ModelSelection = () => {
   const [selectedModel, setSelectedModel] = useState('');
@@ -31,6 +50,57 @@ const ModelSelection = () => {
     }
   };
 
+  const renderAccuracyChart = (accuracy: number, title: string) => {
+    const chartData = {
+      labels: ['Accuracy'],
+      datasets: [
+        {
+          label: 'Accuracy',
+          backgroundColor: '#6200ea',
+          borderColor: '#6200ea',
+          borderWidth: 1,
+          data: [accuracy],
+        },
+      ],
+    };
+
+    return (
+      <Box sx={{ marginTop: '20px', width: '100%', height: '60px' }}>
+        <Bar
+          data={chartData}
+          options={{
+            indexAxis: 'y',
+            scales: {
+              x: {
+                min: 0,
+                max: 1,
+                title: {
+                  display: true,
+                  text: 'Accuracy',
+                  padding: { top: 20, bottom: 20 },
+                },
+              },
+              y: {
+                display: false,
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+                position: 'left',
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context: any) => `Accuracy: ${context.raw.toFixed(2)}`,
+                },
+              },
+            },
+          }}
+        />
+      </Box>
+    );
+  };
+
   const handleModelChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSelectedModel(event.target.value);
   };
@@ -39,30 +109,31 @@ const ModelSelection = () => {
     setSelectedTab(newValue);
   };
 
-  const renderTable = (data: { [s: string]: unknown; } | ArrayLike<unknown> | null) => {
+  const renderBarChart = (data: { [s: string]: unknown; } | ArrayLike<unknown> | null) => {
     if (typeof data !== 'object' || data === null) return null;
-    console.log(data);
+
+    const labels = Object.keys(data);
+    const values = Object.values(data).map(value => (typeof value === 'object' ? JSON.stringify(value) : value));
+
+    const chartData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Values',
+          backgroundColor: '#6200ea',
+          borderColor: '#6200ea',
+          borderWidth: 1,
+          hoverBackgroundColor: '#3700b3',
+          hoverBorderColor: '#3700b3',
+          data: values,
+        },
+      ],
+    };
+
     return (
-      <TableContainer component={Paper} sx={{ backgroundColor: '#1e1e1e', color: '#e0e0e0', marginTop: '20px' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {Object.keys(data).map((key, index) => (
-                <TableCell key={index} sx={{ color: '#e0e0e0' }}>{key}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              {Object.values(data).map((value, index) => (
-                <TableCell key={index} sx={{ color: '#e0e0e0' }}>
-                    {value!.toString()}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Box sx={{ marginTop: '30px', height: '400px', marginBottom: '30px' }}>
+        <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+      </Box>
     );
   };
 
@@ -75,15 +146,12 @@ const ModelSelection = () => {
           id="model-select"
           value={selectedModel}
           onChange={handleModelChange}
-          sx={{ color: '#e0e0e0', width: '200px' }}
+          sx={{ color: '#e0e0e0' }}
         >
           <MenuItem value="SVG">SVG</MenuItem>
         </Select>
       </FormControl>
-      {accuracy !== null && (
-        <Typography variant="h6" sx={{ color: '#e0e0e0', marginTop: '10px' }}>
-          Accuracy: {accuracy}
-        </Typography>
+      {accuracy !== null && ( renderAccuracyChart(accuracy, 'Accuracy')
       )}
       {selectedModel === 'SVG' && modelData && (
         <>
@@ -92,7 +160,7 @@ const ModelSelection = () => {
               <Tab key={index} label={key} sx={{ color: '#e0e0e0' }} />
             ))}
           </Tabs>
-          {renderTable(modelData[Object.keys(modelData)[selectedTab]])}
+          {renderBarChart(modelData[Object.keys(modelData)[selectedTab]])}
         </>
       )}
     </Box>

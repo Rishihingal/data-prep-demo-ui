@@ -51,7 +51,7 @@ export default function VerticalTabs() {
 
   return (
         <Box
-        sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex' }}
+        sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex', alignContent: 'center', justifyContent: 'center' }}
         >
         <Tabs
             orientation="vertical"
@@ -67,9 +67,7 @@ export default function VerticalTabs() {
             <Tab label= "Prediction"  {...a11yProps(3)}/>
             <Tab label="Model Management" {...a11yProps(4)} />
         </Tabs>
-        <TabPanel value={value} index={0}>
-            <Upload />
-        </TabPanel>
+        <TabPanel value={value} index={0} children={<Upload />}/>
         <TabPanel value={value} index={1}>
           <Eda />
         </TabPanel>
