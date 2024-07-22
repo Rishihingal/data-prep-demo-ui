@@ -50,7 +50,12 @@ export default function VerticalTabs() {
   };
 
   return (
+    <>
+    <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+    <h2 className="h2 mb-4">Volunteers Suitability Score App</h2>
+  </div>
         <Box
+        id="vertical-tabs"
         sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex', alignContent: 'center', justifyContent: 'center' }}
         >
         <Tabs
@@ -81,5 +86,6 @@ export default function VerticalTabs() {
         Model Management
         </TabPanel>
         </Box>
+        </>
   );
 }

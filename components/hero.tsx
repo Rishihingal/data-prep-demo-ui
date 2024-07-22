@@ -1,8 +1,18 @@
+'use client'
 import VideoThumb from '@/public/images/hero-image-01.jpg'
 import ModalVideo from '@/components/modal-video'
 
 export default function Hero() {
-  return (
+  function handleClick(e: React.MouseEvent, id: string) { 
+    e.preventDefault()
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+
+return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
@@ -28,10 +38,10 @@ export default function Hero() {
             <p className="text-xl text-gray-400 mb-8" data-aos="fade-up" data-aos-delay="200">AmeriCorps usecase to provide the volunteers suitability score based on the historical data</p>
             <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
               <div data-aos="fade-up" data-aos-delay="400">
-                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="#0">Start free trial</a>
+                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="#vertical-tabs" onClick={(e) => (handleClick(e, 'vertical-tabs'))}>Start Demo</a>
               </div>
               <div data-aos="fade-up" data-aos-delay="600">
-                <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="#0">Learn more</a>
+                <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="#features" onClick={(e) => (handleClick(e, 'features'))}>Learn more</a>
               </div>
             </div>
           </div>

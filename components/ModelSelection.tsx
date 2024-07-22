@@ -65,7 +65,7 @@ const ModelSelection = () => {
     };
 
     return (
-      <Box sx={{ marginTop: '20px', width: '100%', height: '60px' }}>
+      <Box sx={{ marginTop: '20px', width: '100%', height: '60px', alignItems: 'center',  }}>
         <Bar
           data={chartData}
           options={{
@@ -113,7 +113,11 @@ const ModelSelection = () => {
     if (typeof data !== 'object' || data === null) return null;
 
     const labels = Object.keys(data);
-    const values = Object.values(data).map(value => (typeof value === 'object' ? JSON.stringify(value) : value));
+    // remove support from labels
+    labels.splice(labels.indexOf('support'), 1);
+    const values = Object.values(data as { [s: string]: unknown; }).map(value => (typeof value === 'object' ? JSON.stringify(value) : value));
+    // remove support from values
+    values.splice(values.indexOf((data as { [s: string]: undefined; })['support']), 1);
 
     const chartData = {
       labels: labels,
@@ -146,13 +150,12 @@ const ModelSelection = () => {
           id="model-select"
           value={selectedModel}
           onChange={handleModelChange}
-          sx={{ color: '#e0e0e0' }}
+          sx={{ color: '#e0e0e0', width: '200px', height: '53px' }}
         >
           <MenuItem value="SVG">SVG</MenuItem>
         </Select>
       </FormControl>
-      {accuracy !== null && ( renderAccuracyChart(accuracy, 'Accuracy')
-      )}
+      {accuracy !== null && ( renderAccuracyChart(accuracy, 'Accuracy')  )}
       {selectedModel === 'SVG' && modelData && (
         <>
           <Tabs value={selectedTab} onChange={handleTabChange} sx={{ marginTop: '20px', borderBottom: 1, borderColor: 'divider' }}>
