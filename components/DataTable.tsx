@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, Card } from '@mui/material';
 
 interface DataTableProps {
-    data: string[][]; // Replace 'any' with the type of your data
+    data: string[][]; 
 }
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
