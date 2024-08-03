@@ -16,6 +16,7 @@ const Upload: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files![0];
     if (event.target.files) {
@@ -83,10 +84,10 @@ setOpenSnackbar(false);
 
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-      <div className="relative flex flex-col items-center bg-gray-900 p-6 rounded-lg shadow-lg">
+    <Box sx={{ flexGrow: 1, bgcolor: 'background.default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+      <div className="relative flex flex-col items-center bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
         <div
-          className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
+          className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-900 rounded-lg cursor-pointer hover:border-gray-400"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
@@ -96,8 +97,8 @@ setOpenSnackbar(false);
             className="absolute inset-0 opacity-0 cursor-pointer"
           />
           <div className="flex flex-col items-center">
-            <FaUpload className="w-10 h-10 text-gray-400" />
-            <span className="mt-2 text-sm text-gray-400">
+            <FaUpload className="w-10 h-10 text-gray-900" />
+            <span className="mt-2 text-sm text-gray-900">
               {file ? file.name : 'Drag & drop a file here or click to select a file'}
             </span>
           </div>

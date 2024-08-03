@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, Box, Typography, Tab, Tabs } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Box, Typography, Tab, Tabs, Modal } from '@mui/material';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { FaInfoCircle} from 'react-icons/fa';
 
 ChartJS.register(
   CategoryScale,
@@ -22,20 +23,18 @@ ChartJS.register(
 );
 
 const ModelSelection = () => {
-  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState('logistic_regression');
   const [modelData, setModelData] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
 
   useEffect(() => {
-    if (selectedModel === 'SVG') {
       getModelsData();
-    }
   }, [selectedModel]);
 
   const getModelsData = async () => {
     try {
-      const response = await axios.get('http://3.108.249.79:5000/train_model', {
+      const response = await axios.get(`http://3.108.249.79:5000/train_model?model=${selectedModel}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -141,30 +140,90 @@ const ModelSelection = () => {
     );
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <Box sx={{ marginTop: '20px' }}>
+    <Box sx={{ marginTop: '20px', width: '400px' }}>
       <FormControl variant="filled" fullWidth>
-        <InputLabel id="model-select-label" sx={{ color: '#e0e0e0' }}>Select a Model</InputLabel>
+        <InputLabel id="model-select-label" sx={{ color: 'black' }}>Select a Model</InputLabel>
         <Select
           labelId="model-select-label"
           id="model-select"
           value={selectedModel}
           onChange={handleModelChange}
-          sx={{ color: '#e0e0e0', width: '200px', height: '53px' }}
+          sx={{ color: 'black', width: '200px', height: '53px' }}
         >
-          <MenuItem value="SVG">SVG</MenuItem>
+          <MenuItem value="svm">Support Vector Machine</MenuItem>
+          <MenuItem value="logistic_regression">Logistic Regression</MenuItem>
+          <MenuItem value="random_forest">Random Forest</MenuItem>
         </Select>
+        <FaInfoCircle
+          style={{ position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+          onClick={handleModalOpen}
+        />
       </FormControl>
-      {accuracy !== null && ( renderAccuracyChart(accuracy, 'Accuracy')  )}
-      {selectedModel === 'SVG' && modelData && (
+      {accuracy !== null && (renderAccuracyChart(accuracy, 'Accuracy'))}
+      {selectedModel && modelData && (
         <>
           <Tabs value={selectedTab} onChange={handleTabChange} sx={{ marginTop: '20px', borderBottom: 1, borderColor: 'divider' }}>
             {Object.keys(modelData).map((key, index) => (
-              <Tab key={index} label={key} sx={{ color: '#e0e0e0' }} />
+              <Tab key={index} label={key} sx={{ color: 'black' }} />
             ))}
           </Tabs>
           {renderBarChart(modelData[Object.keys(modelData)[selectedTab]])}
         </>
+      )}
+      {selectedModel === 'LR' && (
+        <Typography variant="h6" component="h2" sx={{ marginTop: '20px' }}>
+          Logistic Regression Model Selected
+        </Typography>
+      )}
+      {selectedModel === 'RFC' && (
+        <Typography variant="h6" component="h2" sx={{ marginTop: '20px' }}>
+          Random Forest Classifier Model Selected
+        </Typography>
+      )}
+      {isModalOpen && (
+        <Modal open={isModalOpen} onClose={handleModalClose}>
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            <Typography variant="h6" component="h2">
+              Model Info
+            </Typography>
+            <Typography sx={{ mt: 2 }}>
+            <p style={{ marginTop: '8px' }}>
+            {selectedModel === 'logistic_regression' && (
+              <>
+                <b>Logistic Regression:</b>
+                <br />
+                <li>Why It Works Well: It's great for yes/no type questions (like whether someone will volunteer or not). Logistic Regression provides probabilities, which means it can tell you not just whether someone might volunteer, but how likely they are to do so. This is really useful if you want to measure how confident you are in your predictions.</li>
+              </>
+            )}
+            {selectedModel === 'random_forest' && (
+              <>
+                <b>Random Forest Classifier:</b>
+                <br />
+                <li>Why It Works Well: This method uses multiple decision trees to make a decision, which generally gives more accurate results than using a single decision tree. It's good at dealing with different types of data and lots of features, and it can handle complex patterns that Logistic Regression might miss. Like Logistic Regression, it can also estimate the likelihood of someone volunteering, though it does this in a slightly more indirect way.</li>
+              </>
+            )}
+            {selectedModel === 'svm' && (
+              <>
+                <b>Support Vector Machine (SVM):</b>
+                <br />
+                <li>Why It Works Well: SVM is effective for classification tasks like determining if a volunteer is suitable or not. It works by finding the best boundary (or hyperplane) that separates different classes in the dataset. One of SVM’s strengths is its ability to handle high-dimensional data (lots of features) well. It's particularly good when the distinction between the classes is clear and can be captured by the boundaries it calculates.</li>
+              </>
+            )}
+          </p>
+            </Typography>
+          </Box>
+        </Modal>
       )}
     </Box>
   );

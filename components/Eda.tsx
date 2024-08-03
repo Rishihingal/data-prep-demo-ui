@@ -15,7 +15,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     const values = Object.values(data);
 
     return (
-        <TableContainer component={Paper} className="max-h-64 mt-5 bg-gray-900 rounded-lg overflow-auto">
+        <TableContainer component={Paper} className="max-h-64 mt-5 bg-white rounded-lg overflow-auto">
             <Table size="medium" sx={{ bgcolor: 'Background.default' }}>
                 <TableHead>
                     <TableRow sx={{ bgcolor: 'Background.default' }}>
@@ -81,7 +81,7 @@ const Eda: React.FC = () => {
     };
 
     return (
-        <Box className="flex flex-col items-center p-8 bg-gray-900 min-h-screen">
+        <Box className="flex flex-col items-center p-8 bg-white min-h-screen">
             <Tabs value={value} onChange={handleTabChange} aria-label="summary statistics tabs">
                 <Tab label="Mean" />
                 <Tab label="Median" />

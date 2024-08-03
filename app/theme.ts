@@ -1,9 +1,6 @@
 'use client';
 import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { grey } from '@mui/material/colors';
-
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -15,10 +12,9 @@ const theme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
   palette: {
-    mode: "dark",
+    mode: "light",
     background:{
-        default: '#151719',
-        paper: grey[900]
+      default: '#fffff'
     }
   }
 });
