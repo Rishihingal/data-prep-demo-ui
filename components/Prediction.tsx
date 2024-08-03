@@ -135,9 +135,9 @@ const Prediction: React.FC = () => {
             transform: 'translate(-50%, -50%)', 
             bgcolor: 'background.paper', 
             boxShadow: 24, 
-            p: 0.2, 
-            maxWidth: '100vw',
-            maxHeight: '100vh', 
+            p: 2, 
+            maxWidth: '200vw',
+            maxHeight: '200vh', 
             overflow: 'auto' }}>
           <DataTable data={tableData} />
         </Box>

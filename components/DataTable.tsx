@@ -26,7 +26,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                 <TableHead>
                     <TableRow>
                         {columns.map((column, index) => (
-                            <TableCell key={index} sx={{ fontSize: '0.70rem', padding: '0.5rem' }}>
+                            <TableCell key={index} sx={{ fontSize: '0.75rem', padding: '0.28rem' }}>
                                 {column}
                             </TableCell>
                         ))}
@@ -36,7 +36,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                     {data.slice(1).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                         <TableRow key={index}>
                             {row.map((cell, cellIndex) => (
-                                <TableCell key={cellIndex} sx={{ fontSize: '0.95rem', padding: '0.3rem' }}>
+                                <TableCell key={cellIndex} sx={{ fontSize: '0.75rem', padding: '0.28rem' }}>
                                     {cell}
                                 </TableCell>
                             ))}
