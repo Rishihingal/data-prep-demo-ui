@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash, FaUpload } from 'react-icons/fa';
 import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip, Modal, Stack } from '@mui/material';
 
 const Prediction: React.FC = () => {
   var [file, setFile] = useState<File | null>(null);
@@ -15,7 +15,7 @@ const Prediction: React.FC = () => {
   const [tableData, setTableData] = useState<string[][]>([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [title, setTitle] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files![0];
@@ -70,7 +70,7 @@ const Prediction: React.FC = () => {
         const rows = response.data.split('\n');
         const data = rows.map((row: string) => row.split(','));
         setTableData(data);
-        setTableVisible(true);
+        setOpenModal(true);
         setSnackbarMessage('Data Prediction is ready!');
         setOpenSnackbar(true);
       } catch (error) {
@@ -115,16 +115,33 @@ const Prediction: React.FC = () => {
 
         {tableData.length !== 0 && (
           <button
-            onClick={() => setTableVisible(!tableVisible)}
+            onClick={() => setOpenModal(true)}
             className="mt-4 bg-purple-700 text-purple-100 px-4 py-2 rounded-lg hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 flex items-center"
           >
-            {tableVisible ? <FaEyeSlash className="mr-2" /> : <FaEye className="mr-2" />}
-            {tableVisible ? 'Hide Preview' : 'Show Preview'}
+            {openModal ? <FaEyeSlash className="mr-2" /> : <FaEye className="mr-2" />}
+            {openModal ? 'Hide Preview' : 'Show Preview'}
           </button>
         )}
-
-        {tableVisible && <DataTable data={tableData} />}
       </div>
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={{  position: 'absolute', 
+            top: '50%', 
+            left: '50%', 
+            transform: 'translate(-50%, -50%)', 
+            bgcolor: 'background.paper', 
+            boxShadow: 24, 
+            p: 0.2, 
+            maxWidth: '100vw',
+            maxHeight: '100vh', 
+            overflow: 'auto' }}>
+          <DataTable data={tableData} />
+        </Box>
+      </Modal>
 
       {/* Snackbar for success message */}
       <Snackbar

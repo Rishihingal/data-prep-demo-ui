@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Paper, TablePagination, Box } from '@mui/material';
 
 interface DataTableProps {
     data: string[][]; 
@@ -21,37 +21,39 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column, index) => (
-                                <TableCell key={index}>{column}</TableCell>
+        <Box sx={{ width: '100%', overflow: 'auto' }}>
+            <Table stickyHeader aria-label="simple table" sx={{ minWidth: 1000 }}>
+                <TableHead>
+                    <TableRow>
+                        {columns.map((column, index) => (
+                            <TableCell key={index} sx={{ fontSize: '0.70rem', padding: '0.5rem' }}>
+                                {column}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data.slice(1).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                        <TableRow key={index}>
+                            {row.map((cell, cellIndex) => (
+                                <TableCell key={cellIndex} sx={{ fontSize: '0.95rem', padding: '0.3rem' }}>
+                                    {cell}
+                                </TableCell>
                             ))}
                         </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.slice(1).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                            <TableRow key={index}>
-                                {row.map((cell, cellIndex) => (
-                                    <TableCell key={cellIndex} size='small'>{cell}</TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={data.length - 1}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </TableContainer>
-        </Paper>
+                    ))}
+                </TableBody>
+            </Table>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={data.length - 1}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Box>
     );
 };
 
