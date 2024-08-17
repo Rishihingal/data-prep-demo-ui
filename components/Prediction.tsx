@@ -7,6 +7,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { Box, Chip, Modal, Stack } from '@mui/material';
+import url from '@/app/url';
 
 const Prediction: React.FC = () => {
   var [file, setFile] = useState<File | null>(null);
@@ -59,7 +60,7 @@ const Prediction: React.FC = () => {
       formData.append('file', file);
 
       try {
-        const response = await axios.post(`http://3.108.249.79:5000/predict?model=${model}`, formData, {
+        const response = await axios.post(`${url}/predict?model=${model}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Access-Control-Allow-Origin' : '*',

@@ -12,6 +12,7 @@ import {
   Legend,
 } from 'chart.js';
 import { FaInfoCircle} from 'react-icons/fa';
+import url from '@/app/url';
 
 ChartJS.register(
   CategoryScale,
@@ -34,7 +35,7 @@ const ModelSelection = () => {
 
   const getModelsData = async () => {
     try {
-      const response = await axios.get(`http://3.108.249.79:5000/train_model?model=${selectedModel}`, {
+      const response = await axios.get(`${url}/train_model?model=${selectedModel}`, {
         headers: {
           'Content-Type': 'application/json',
         },

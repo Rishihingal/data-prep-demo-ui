@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Card } from '@mui/material';
 import axios from 'axios';
+import url from '@/app/url';
 
 interface SummaryStatistics {
     [key: string]: Record<string, number>;
@@ -47,7 +48,7 @@ const Eda: React.FC = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.get('http://3.108.249.79:5000/stats', {
+            const response = await axios.get(`${url}/stats`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

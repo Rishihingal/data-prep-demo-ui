@@ -7,6 +7,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { Box, Modal } from '@mui/material';
+import url from '@/app/url';
 
 const Upload: React.FC = () => {
   var [file, setFile] = useState<File | null>(null);
@@ -59,7 +60,7 @@ const Upload: React.FC = () => {
       formData.append('file', file);
 
       try {
-        const response = await axios.post('http://3.108.249.79:5000/upload', formData, {
+        const response = await axios.post(`${url}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Access-Control-Allow-Origin' : '*',
